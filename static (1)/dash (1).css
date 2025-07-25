@@ -1,0 +1,148 @@
+/* Reset default styles */
+body, h1, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    color: rgb(13, 13, 15);
+    background-image: url('../static/images/emo9.png'); /* Update the path to your image */
+    background-size: center;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Ensure relative positioning for logo */
+}
+
+/* Content Styles */
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%; /* Ensure the content can be wider */
+    overflow-x: hidden; /* Hide horizontal scrollbar */
+    animation: moveImages 10s linear infinite; /* Slower animation */
+}
+
+/* 3D Effect Styles */
+.square {
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    text-align: center;
+    overflow: hidden;
+    border: 1px solid #000; /* Example border */
+    position: relative;
+    transition: transform 0.2s ease; /* Added transition for hover effect */
+    perspective: 800px; /* Added perspective for 3D effect */
+}
+
+.square img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease; /* Added transition for 3D rotation */
+}
+
+.square:hover {
+    transform: scale(1.05) translateY(-5px); /* Slight bounce effect */
+}
+
+.square:hover img {
+    transform: rotateY(180deg); /* 3D rotation on hover */
+}
+
+@keyframes moveImages {
+    0% {
+        transform: translateX(100%); /* Start from outside the viewport */
+    }
+    100% {
+        transform: translateX(-100%); /* Move across the viewport */
+    }
+}
+
+.square {
+    width: 300px;
+    height: 300px;
+    margin: 10px;
+    text-align: center;
+    overflow: hidden;
+    border: 1px solid #000; /* Example border */
+    position: relative;
+    transition: transform 0.2s ease; /* Added transition for hover effect */
+}
+
+.square img {
+    width: 100%;
+    height: 100%;
+}
+
+.square:hover {
+    transform: scale(1.05) translateY(-5px); /* Slight bounce effect */
+}
+
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.square:hover .overlay {
+    opacity: 1;
+}
+
+/* Dropdown Styles */
+.dropdown {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+    margin: 10px;
+}
+
+.dots {
+    cursor: pointer;
+    font-size: 24px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.3s ease;
+}
+
+.dots div {
+    width: 20px;
+    height: 2px;
+    background-color: black;
+    margin-bottom: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}

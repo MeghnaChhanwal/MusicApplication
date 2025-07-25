@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TURN IT UP</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dash.css') }}">
+    <style>
+        /* Add your CSS styles here */
+        /* ... */
+    </style>
+</head>
+<body>
+    <!-- Three Dot Button -->
+    <div class="dropdown">
+        <div class="dots" onclick="toggleDropdown()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div id="dropdownContent" class="dropdown-content">
+            <a href="{{ url_for('login') }}">Go To Login Page</a>
+            <a href="{{ url_for('home') }}">Home Page</a>
+            <hr>
+            <a href="{{ url_for('registerr') }}">registerr</a>
+        </div>
+    </div>
+
+    <!-- Your existing content -->
+    <div class="content">
+        <a class="square square1" href="{{ url_for('index') }}">
+            <img src="../static/images/sq1.jpg" alt="Image 1">
+            <div class="overlay">Go Live!</div>
+        </a>
+        <a class="square square2" href="{{ url_for('emo') }}">
+            <img src="../static/images/sq2.jpg" alt="Image 2">
+            <div class="overlay">Choose yourself</div>
+        </a>
+        <a class="square square3" href="{{ url_for('registerr') }}">
+            <img src="../static/images/sq3.jpg" alt="Image 3">
+            <div class="overlay">REMIXXX</div>
+        </a>
+    </div>
+
+    <script>
+        function toggleDropdown() {
+            var dropdownContent = document.getElementById("dropdownContent");
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        }
+
+        // JavaScript for handling square animation on hover
+        var squares = document.querySelectorAll('.square');
+
+        squares.forEach(function(square) {
+            square.addEventListener('mouseenter', function() {
+                this.querySelector('.overlay').style.opacity = '1';
+                this.querySelector('img').style.transform = 'scale(1.1)';
+            });
+
+            square.addEventListener('mouseleave', function() {
+                this.querySelector('.overlay').style.opacity = '0';
+                this.querySelector('img').style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

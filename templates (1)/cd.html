@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome App</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle at 50% 50%, #8c52ff, #5ce1ef);
+ /* Cornflower Blue background */
+      color: #0c0b0b; /* White text */
+      font-family: Arial, sans-serif;
+    }
+
+    .cd-container {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #d79595, #e2ebf0);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      margin-bottom: 20px; /* Space between elements */
+    }
+
+    .cd {
+      width: 9px;
+      height: 9px;
+      border-radius: 100%;
+      background: linear-gradient(45deg, rgb(240, 125, 123), rgb(243, 85, 85)); /* Gradient color for CD */
+      position: absolute;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .loading-text {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .welcome-text {
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-text">Welcome to the App</div>
+  <div class="cd-container">
+    <div class="cd"></div>
+    <div class="loading-text">Loading...</div>
+  </div>
+  <audio autoplay loop>
+    <source src="../static/images/beautiful_melody.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <script>
+    const cdElement = document.querySelector('.cd');
+    let rotation = 0;
+
+    function animateCD() {
+      rotation += 1;
+      const x = 120 * Math.cos(rotation * Math.PI / 180);
+      const y = 120 * Math.sin(rotation * Math.PI / 180);
+      cdElement.style.transform = `translate(${x}px, ${y}px)`;
+      requestAnimationFrame(animateCD);
+    }
+
+    animateCD();
+
+    setTimeout(function() {
+      window.location.href = '/dashboard'; // Replace 'dashboard.html' with the URL of your dashboard page
+    }, 3000); // 10000 milliseconds = 10 seconds
+  </script>
+</body>
+</html>

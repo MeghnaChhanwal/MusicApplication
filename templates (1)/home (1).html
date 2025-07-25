@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flask Home Page</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
+</head>
+<body>
+    <div class="background">
+        <div class="title">
+            
+        </div>
+        <div class="buttons">
+            <a class="register-button" href="{{ url_for('registerr') }}">Register Here</a>
+            <a class="login-button" href="{{ url_for('login') }}">Log In</a>
+        </div>
+    </div>
+
+    <!-- Embedding the MP4 video -->
+    <video autoplay muted loop id="background-video">
+        <source src="{{ url_for('static', filename='../static/images/em6.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</body>
+</html>

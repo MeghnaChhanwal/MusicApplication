@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #8041ff;
+    background: radial-gradient(circle at 50% 50%, #8c52ff, #5ce1ef);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    background-color: #fff;
+    padding: 40px; /* Increased padding for more spacious feel */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow effect */
+    width: 350px; /* Widened the form */
+    max-width: 80%; /* Restricted maximum width */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: calc(100% - 22px); /* Adjusted input width to accommodate padding and border */
+    padding: 12px;
+    margin-bottom: 20px; /* Increased bottom margin */
+    border: 1px solid #ccc;
+    border-radius: 8px; /* Slightly rounded corners */
+    outline: none; /* Removed input outline */
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}

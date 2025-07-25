@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+</head>
+<body>
+    <div class="video-container">
+        <video autoplay muted loop id="background-video" width="100%">
+            <source src="{{ url_for('static', filename='../static/images/M3.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="container">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <h2>Registration</h2>
+            <div class="form-group">
+                {{ form.UserName.label(class="form-control-label") }}
+                {{ form.UserName(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.Password.label(class="form-control-label") }}
+                {{ form.Password(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.ConfirmPassword.label(class="form-control-label") }}
+                {{ form.ConfirmPassword(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.Age.label(class="form-control-label") }}
+                {{ form.Age(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.PhoneNumber.label(class="form-control-label") }}
+                {{ form.PhoneNumber(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.Submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Songs Playlist</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #8041ff;
+            background: radial-gradient(circle at 50% 50%, #8c52ff, #5ce1ef);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #010001; /* Header color */
+        }
+
+        p {
+            font-size: 16px;
+            margin-top: 0;
+        }
+
+        .background-box {
+            background:linear-gradient(#9ce3ff 0%,#fff6f7 90%);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            max-width: 100%;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 400px;
+            color: #BC6FF1;
+            position: relative;
+        }
+
+        .video-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-gap: 20px;
+            justify-items: center;
+        }
+
+        .video {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: none;
+        }
+
+        .video iframe {
+            width: 100%;
+            height: 180px;
+            border: none;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .video.active {
+            display: block;
+        }
+
+        .video:hover iframe {
+            transform: scale(1.1);
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1b6cc9;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0d62bc;
+            transform: scale(1.05);
+        }
+
+        /* Visualizer-like animation styles */
+        .visualizer {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .bar {
+            width: 20px;
+            margin: 0 3px;
+            border-radius: 2px;
+            background-color: rgba(27, 108, 201, 0.7); /* Adjust bar color and transparency */
+            animation: soundwave 0.5s infinite alternate;
+        }
+
+        /* Animation effect */
+        @keyframes soundwave {
+            0% {
+                height: 40px;
+                opacity: 0.5; /* Adjust transparency at the start */
+            }
+            100% {
+                height: 120px;
+                opacity: 1; /* Adjust transparency at the end */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Songs Playlist</h1>
+    </header>
+
+    <!-- Background box containing the video container and controls -->
+    <div class="background-box">
+        {% if videos %}
+            <!-- Initial video container -->
+            <div class="video active">
+                <iframe src="{{ videos[0].url }}" title="Video Player" allowfullscreen></iframe>
+            </div>
+        {% else %}
+            <p>No videos available</p>
+        {% endif %}
+
+        <!-- Video wrapper for the playlist -->
+        <div class="video-wrapper">
+            {% for url in video_urls %}
+                <div class="video">
+                    <iframe src="{{ url }}" title="YouTube Video" allowfullscreen></iframe>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Controls for the music player -->
+        <div class="controls">
+            <button onclick="playPrevVideo()"><i class="fas fa-backward"></i> Prev</button>
+            <button onclick="playNextVideo()">Next <i class="fas fa-forward"></i></button>
+        </div>
+
+        <!-- Visualizer-like animation -->
+        <div class="visualizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <!-- Add more .bar elements for additional visualizer bars -->
+        </div>
+    </div>
+
+    <script>
+    const videos = document.querySelectorAll('.video iframe');
+    let currentVideoIndex = 0;
+    let visualizerBars; // Store the visualizer bars
+
+    // Function to stop the visualizer animation
+    function stopVisualizer() {
+        if (visualizerBars) {
+            visualizerBars.forEach(bar => {
+                bar.style.animationPlayState = 'paused';
+            });
+        }
+    }
+
+    // Function to start the visualizer animation
+    function startVisualizer() {
+        if (visualizerBars) {
+            visualizerBars.forEach(bar => {
+                bar.style.animationPlayState = 'running';
+            });
+        }
+    }
+
+    // Play the next video
+    function playNextVideo() {
+        stopVisualizer(); // Stop the animation
+        videos[currentVideoIndex].parentElement.classList.remove('active');
+        if (currentVideoIndex < videos.length - 1) {
+            currentVideoIndex++;
+        } else {
+            currentVideoIndex = 0;
+        }
+        videos[currentVideoIndex].parentElement.classList.add('active');
+        videos[currentVideoIndex].src += '?autoplay=1'; // Auto play the next video
+        startVisualizer(); // Start the animation for the new video
+    }
+
+    // Play the previous video
+    function playPrevVideo() {
+        stopVisualizer(); // Stop the animation
+        videos[currentVideoIndex].parentElement.classList.remove('active');
+        if (currentVideoIndex > 0) {
+            currentVideoIndex--;
+        } else {
+            currentVideoIndex = videos.length - 1;
+        }
+        videos[currentVideoIndex].parentElement.classList.add('active');
+        videos[currentVideoIndex].src += '?autoplay=1'; // Auto play the previous video
+        startVisualizer(); // Start the animation for the new video
+    }
+
+    // Listen to play and pause events for the videos
+    videos.forEach(video => {
+        video.addEventListener('play', startVisualizer);
+        video.addEventListener('pause', stopVisualizer);
+    });
+
+    // Get the visualizer bars
+    visualizerBars = document.querySelectorAll('.bar');
+</script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mood Slider</title>
+   
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('../static/images/emobg.jpg'); /* Replace 'path_to_your_image.jpg' with your image file */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #slider {
+            width: 80%;
+            height: 40px;
+            margin: 80px auto;
+            font-size: 40px;
+        }
+        .ui-slider {
+            border: 6px solid #aaa; /* Adjust the border width to increase slider thickness */
+        }
+        .ui-slider .ui-slider-range {
+            top: 0;
+            height: 120%;
+        }
+        .ui-slider .ui-slider-handle {
+            height: 40px; /* Adjust the handle size */
+            width: 40px; /* Adjust the handle width */
+            margin-top: -10px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 2px;
+        }
+        .emoji-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 24px;
+        }
+        .arrow-top-right {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        input[type="submit"] {
+            font-size: 24px; /* Adjust the font size for the submit button */
+            padding: 10px 20px; /* Adjust the padding of the submit button */
+            margin: 20px auto; /* Center the button horizontally */
+            display: block; /* Ensure the button occupies the full width */
+        }
+        .dropdown {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+    margin: 10px;
+}
+
+.dots {
+    cursor: pointer;
+    font-size: 24px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.3s ease;
+}
+
+.dots div {
+    width: 20px;
+    height: 2px;
+    background-color: black;
+    margin-bottom: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+    </style>
+</head>
+<body>
+    <div class="dropdown">
+        <div class="dots" onclick="toggleDropdown()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div id="dropdownContent" class="dropdown-content">
+            <a href="{{ url_for('login') }}">Go To Login Page</a>
+            <a href="{{ url_for('registerr') }}">Register </a>
+            <hr>
+            <a href="{{ url_for('dashb') }}">Dashboard</a>
+        </div>
+    </div>
+    <div id="container">
+        <form id="moodForm" action="/submit_mood" method="post">
+            <div id="slider"></div>
+            <div class="emoji-container">
+                <div id="angry">😠 Angry</div>
+                <div id="sad">😢 Sad</div>
+                <div id="neutral">😐 Neutral</div>
+                <div id="happy">😊 Happy</div>
+                <div id="surprised">😲 Surprised</div>
+            </div>
+            <input type="hidden" name="selected_mood" id="selectedMood">
+            <input type="submit" value="CLICK TO PLAY!">
+        </form>
+    </div>
+
+    <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $("#slider").slider({
+                min: 0,
+                max: 100,
+                value: 50,
+                step: 25,
+                slide: function(event, ui) {
+                    var val = ui.value;
+                    var emojis = ['😠', '😢', '😐', '😊', '😲'];
+                    $('.ui-slider-handle').text(emojis[val / 25]);
+                    $('#selectedMood').val(emojis[val / 25]);  // Set the selected mood in the hidden input field
+                }
+            });
+
+            $('.ui-slider-handle').text('😐'); // Initial emoji (neutral)
+
+            $('a').on('click', function(event) {
+                event.preventDefault();
+                var emoji = $(this).text().trim();
+                $('#selectedMood').val(emoji);
+            });
+        });
+        function toggleDropdown() {
+            var dropdownContent = document.getElementById("dropdownContent");
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

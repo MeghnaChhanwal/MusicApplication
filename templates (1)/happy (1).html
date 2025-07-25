@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Songs Playlist</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #8041ff;
+            background: radial-gradient(circle at 50% 50%, #8c52ff, #5ce1ef);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #000000;
+            margin-top: 0;
+        }
+
+        .background-box {
+    background-color: rgba(255, 255, 255, 0.5); /* Adjust transparency */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    max-width: 100%; /* Adjust size as needed */
+    margin-top: 20px; /* Spacing from header */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 400px; /* Increase height here */
+}
+
+        .video-wrapper {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-gap: 20px;
+            justify-items: center;
+        }
+
+        .video {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: none;
+        }
+
+        .video iframe {
+            width: 100%;
+            height: 180px;
+            border: none;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .video.active {
+            display: block;
+        }
+
+        .video:hover iframe {
+            transform: scale(1.1);
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #5988bc;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Angry Songs Playlist</h1>
+    </header>
+
+    <!-- Background box containing the video container and controls -->
+    <div class="background-box">
+        <!-- Initial video container -->
+        {% if videos %}
+            <div class="video active">
+                <iframe src="{{ videos[0].url }}" title="Video Player" allowfullscreen></iframe>
+            </div>
+        {% else %}
+            <p>No videos available</p>
+        {% endif %}
+
+        <!-- Video wrapper for the playlist -->
+        <div class="video-wrapper">
+            {% for url in video_urls %}
+                <div class="video">
+                    <iframe src="{{ url }}" title="YouTube Video" allowfullscreen></iframe>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Controls for the music player -->
+        <div class="controls">
+            <button onclick="playPrevVideo()"><i class="fas fa-backward"></i> Prev</button>
+            <button onclick="playNextVideo()">Next <i class="fas fa-forward"></i></button>
+        </div>
+    </div>
+
+    <script>
+        const videos = document.querySelectorAll('.video iframe');
+        let currentVideoIndex = 0;
+
+        function playNextVideo() {
+            videos[currentVideoIndex].parentElement.classList.remove('active');
+            if (currentVideoIndex < videos.length - 1) {
+                currentVideoIndex++;
+            } else {
+                currentVideoIndex = 0;
+            }
+            videos[currentVideoIndex].parentElement.classList.add('active');
+            videos[currentVideoIndex].src += '?autoplay=1'; // Auto play the next video
+        }
+
+        function playPrevVideo() {
+            videos[currentVideoIndex].parentElement.classList.remove('active');
+            if (currentVideoIndex > 0) {
+                currentVideoIndex--;
+            } else {
+                currentVideoIndex = videos.length - 1;
+            }
+            videos[currentVideoIndex].parentElement.classList.add('active');
+            videos[currentVideoIndex].src += '?autoplay=1'; // Auto play the previous video
+        }
+
+        window.onload = function() {
+            videos[0].parentElement.classList.add('active');
+            videos[0].src += '?autoplay=1'; // Auto play the first video
+        };
+    </script>
+</body>
+</html>
